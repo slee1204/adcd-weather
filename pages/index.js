@@ -35,7 +35,7 @@ export default function Home() {
           setWeather(response.data.weather)
           setTemp(response.data.main.temp)
           setFeelsLike(response.data.main.feels_like)
-          setGust(response.data.wind_gust)
+          setGust(response.data.wind.gust)
           setErrorMessage("")
         }).catch(err => {
           console.log(err)
