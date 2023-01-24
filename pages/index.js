@@ -14,12 +14,18 @@ export default function Home() {
   const [location, setLocation] = useState('');
   const [weather, setWeather] = useState();
   const [errorMessage, setErrorMessage] = useState('');
+  
+  const [feelsLike, setFeelsLike] = useState();
+  const [temp, setTemp] = useState();
+  const [gust, setGust] = useState();
+ 
+ 
 
 
   var apiKey = "3185e01f5a0c36ccf41b0574a99258a4";
   var lang = "kr";
   var units = "metric";
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${apiKey}&lang=${lang}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${apiKey}&lang=${lang}&exclude={hourly,daily}`;
 
   const searchLocation = (event) => {
     if (event.key === "Enter"){
@@ -30,12 +36,16 @@ export default function Home() {
           setData(response.data)
           console.log(response.data)
           setWeather(response.data.weather)
+          setTemp(response.data.main.temp)
+          setFeelsLike(response.data.main.feels_like)
+          setGust(response.data.wind_gust)
           setErrorMessage("")
         }).catch(err => {
           console.log(err)
           setErrorMessage("Please set another location")
           setData({})
           setWeather()
+
         })
         //once you hit enter, it clears the location input
         setLocation('')
@@ -61,6 +71,17 @@ export default function Home() {
         type="text"
        />
        {data.name}
+       {temp}°C
+       {feelsLike}°C
+       {gust}m/s
+
+
+
+        {/* {data.main.temp}°C
+        {data.main.feels_like}°C
+        {data.wind.gust}m/s */}
+       
+       
 
        {
         weather && weather.map((w, index)=>{
@@ -72,6 +93,7 @@ export default function Home() {
           )
         })
        }
+
       </main>
     </>
   )
